@@ -1,0 +1,270 @@
+One student is the "Calculator" (performs division).
+Another student is the "User" (provides numbers).
+A third student is the "Exception Handler" (handles errors).
+
+## **1. What is an Exception?**
+An exception is an unwanted event that disrupts the normal execution of a program. It occurs during runtime due to errors like division by zero, invalid input, file not found, etc.
+
+
+### **Exception Handling in Java**
+Exception handling in Java is a mechanism to handle runtime errors, ensuring the normal flow of the program. It prevents abnormal program termination and enhances fault tolerance.
+
+Exception handling in Java ensures that programs run smoothly even when errors occur. Using `try`, `catch`, `finally`, `throw`, and `throws`, you can manage errors efficiently and improve program stability. 
+
+---
+
+## **2. Types of Exceptions in Java**
+### **A. Checked Exceptions**  
+Checked exceptions are checked at compile-time. If not handled, the compiler gives an error.  
+**Examples:**
+- `IOException`
+- `SQLException`
+- `FileNotFoundException`
+
+### **B. Unchecked Exceptions**  
+Unchecked exceptions occur at runtime. They are caused by programming errors and are not checked at compile-time.  
+**Examples:**
+- `ArithmeticException` (e.g., division by zero)
+- `NullPointerException`
+- `ArrayIndexOutOfBoundsException`
+
+### **C. Errors**  
+Errors indicate serious problems that a program cannot handle.  
+**Examples:**
+- `StackOverflowError`
+- `OutOfMemoryError`
+
+---
+
+## **3. Exception Handling Keywords**
+Java provides four key constructs for exception handling:
+
+| Keyword  | 
+|----------
+| `try`    |
+| `catch`  | 
+| `finally` | 
+| `throw`  | 
+| `throws` | 
+
+---
+### **1. `try` and `catch` Block** 
+The `try` block contains the code that might throw an exception. The `catch` block handles the exception if it occurs. 
+#Dont forgdet diagram
+### `try` and `catch` Syntax**
+```java don't write this linde
+try {
+    // Code that may cause an exception
+} catch (ExceptionType e) {
+    // Code to handle the exception
+}
+```
+**Example:**
+```java
+try {
+    int num = 10 / 0; // This will cause ArithmeticException
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero!");
+}
+```
+
+
+---
+
+## **5. Finally Block (Always Executes)**
+The `finally` block always executes, regardless of whether an exception occurs. 
+
+### **2. `finally` Syntax**
+```java
+try {
+    // Code that may cause an exception
+} catch (ExceptionType e) {
+    // Handling exception
+} finally {
+    // Code that always executes
+}
+```
+
+**Example:**
+```java
+try {
+    int[] arr = new int[5];
+    arr[10] = 100; // This will cause ArrayIndexOutOfBoundsException
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index out of bounds!");
+} finally {
+    System.out.println("This will always execute.");
+}
+```
+---
+
+## **Throw and Throws Keyword**
+### **Throw**
+The `throw` keyword is used to explicitly throw an exception.
+
+### **`throw` Syntax**
+```java
+throw new ExceptionType("Error message");
+```
+**Example:**
+```java
+public class ThrowExample {
+    static void validate(int age) {
+        if (age < 18)
+            throw new ArithmeticException("Not eligible to vote");
+        else
+            System.out.println("Welcome to vote");
+    }
+
+    public static void main(String[] args) {
+        validate(16);
+    }
+}
+```
+### **Throws**
+The throws keyword is used to declare exceptions in a method signature, indicating that the method may throw one or more exceptions that must be handled by the caller. 
+
+### ** `throws` Syntax**
+```java
+returnType methodName() throws ExceptionType1, ExceptionType2 {
+    // Method code
+}
+```
+**Example:**
+```java
+import java.io.IOException;
+
+public class ThrowsExample {
+    static void checkFile() throws IOException {
+        throw new IOException("File not found");
+    }
+
+    public static void main(String[] args) {
+        try {
+            checkFile();
+        } catch (IOException e) {
+            System.out.println("Exception caught: " + e);
+        }
+    }
+}
+```
+
+## **7. Multiple Catch Blocks**
+A single `try` block can have multiple `catch` blocks for handling different exceptions.
+The multiple catch feature allows a try block to have multiple catch blocks, handling of different types of exceptions separately. Each catch block handles a specific exception type,and proper error handling.
+
+### **Multiple Catch Syntax** 
+```java
+try {
+    // Code that may cause multiple exceptions
+} catch (ExceptionType1 e1) {
+    // Handle ExceptionType1
+} catch (ExceptionType2 e2) {
+    // Handle ExceptionType2
+} catch (Exception e) {  // Optional generic exception handler
+    // Handle any other exceptions
+}
+```
+**Example:**
+
+```java
+public class MultipleCatchExample {
+    public static void main(String[] args) {
+        try {
+            int a = 5 / 0;
+            int[] arr = new int[5];
+            arr[10] = 20;
+        } catch (ArithmeticException e) {
+            System.out.println("Arithmetic Exception: " + e);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array Index Out of Bounds Exception: " + e);
+        } catch (Exception e) {
+            System.out.println("General Exception: " + e);
+        }
+    }
+}
+```
+
+---
+
+## **8. Custom Exception (User-Defined Exception)**
+A custom exception (user-defined exception) is a subclass of Exception or RuntimeException that allows developers to define their own exception types with custom error messages and behaviors.
+
+You create your own exception class by extending `Exception` or `RuntimeException`.
+
+**Example:**
+```java
+class MyException extends Exception {
+    public MyException(String message) {
+        super(message);
+    }
+}
+
+public class CustomExceptionExample {
+    static void validate(int age) throws MyException {
+        if (age < 18)
+            throw new MyException("Age must be 18 or above.");
+    }
+
+    public static void main(String[] args) {
+        try {
+            validate(16);
+        } catch (MyException e) {
+            System.out.println("Caught: " + e.getMessage());
+        }
+    }
+}
+```
+
+### **Nested Try in Java**  
+A **nested try** block is a `try` block inside another `try` block. It is used when a piece of code inside a `try` block might generate another exception that requires separate handling.
+
+---
+
+### **Syntax of Nested Try**
+```java
+try {
+    // Outer try block
+    try {
+        // Inner try block
+    } catch (ExceptionType1 e) {
+        // Handling exception from inner try
+    }
+} catch (ExceptionType2 e) {
+    // Handling exception from outer try
+}
+```
+
+---
+
+### **Example:**
+```java
+public class NestedTryExample {
+    public static void main(String[] args) {
+        try {
+            System.out.println("Outer try block");
+            
+            try {
+                int arr[] = {1, 2, 3};
+                System.out.println(arr[5]); // This will cause an exception
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Inner catch: Array index out of bounds!");
+            }
+
+            int result = 10 / 0; // Another exception
+        } catch (ArithmeticException e) {
+            System.out.println("Outer catch: Cannot divide by zero!");
+        }
+    }
+}
+```
+### **Difference Between `throw` and `throws` in Java**  
+
+| Feature       | `throw` | `throws` |
+|--------------|--------|---------|
+| **Purpose**  | Used to explicitly throw an exception. | Used to declare exceptions a method might throw. |
+| **Usage**    | Inside a method or block. | In the method signature. |
+| **Type**     | Used for a single exception at a time. | Can declare multiple exceptions separated by commas. |
+| **Execution** | Stops execution immediately and transfers control to the nearest `catch` block. | Does not stop execution; just informs that exceptions might occur. |
+| **Syntax**   | `throw new ExceptionType("message");` | `methodName() throws ExceptionType1, ExceptionType2 {}` |
+---
